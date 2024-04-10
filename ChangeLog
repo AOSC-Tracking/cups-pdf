@@ -1,0 +1,128 @@
+2017-02-24:  CUPS-PDF 3.0.1      - corrected a bug with multiple instance naming,
+                                   some code and logging improvements,
+                                   removed obsolete code,
+                                   updated the README file
+2017-01-04:  CUPS-PDF 3.0.0      - disabled support for multiple PS-files in one file, 
+                                   improved PS-structure handling,
+                                   reordered compiler call to avoid errors
+2014-10-19:  CUPS-PDF 3.0beta2   - code simplifications and optimizations,
+                                   improved file name handling,
+                                   removed contrib/ directory from tarball (now on WWW),
+                                   new contact data
+2012-02-29:  CUPS-PDF 3.0beta1   - support for multiple configurations with one backend,
+                                   support for option setting via lpoptions or PPD,
+                                   new option for selecting output file extension,
+                                   improved logging system with better error handling,
+                                   various code optimizations,
+                                   additional PPD for option setting,
+                                   new script in contrib/ for creating user defaults,
+                                   updated documentation
+2011-10-04:  CUPS-PDF 2.6.1      - fixed a non-freed pointer,
+                                   fixed an invalid line in the config due to a typo,
+                                   added detailed copyright information to contrib/
+2011-10-01 : CUPS-PDF 2.6.0      - new experimental option for various line delimiters,
+                                   supplementary groups are set in addition to primary
+2011-02-18 : CUPS-PDF 2.5.1      - fixed crash due to an uninitialized pointer,
+                                   improved logging mechanism in case of crashes,
+                                   improved recognition of untitled documents via stdin,
+                                   job labels can be set before and after document name, 
+                                   removed several bashisms from SELinux-contribution
+2009-01-26 : CUPS-PDF 2.5.0      - new option to truncate long filenames,
+                                   spoolfile is purged on errors,
+                                   failed chmod() on output is treated as non-fatal,
+                                   updates and additions to the documentation,
+                                   removed additional changelog from source code
+2008-06-22 : CUPS-PDF 2.4.8      - fixed too small allocation of postprocessing string,
+                                   corrected typo in the config file documentation,
+                                   update for the SELinux .te-file in contrib/
+2008-03-24 : CUPS-PDF 2.4.7      - corrected the exit codes to match CUPS' specifications,
+                                   original username passed to PostProcessing as 3rd arg,
+                                   made PPD file auto-selectable via IEEE-1284 device id
+2007-05-04 : CUPS-PDF 2.4.6	 - optimized default options for GS to produce PDFs
+2007-02-27 : CUPS-PDF 2.4.5      - enclosing parentheses () are removed from title,
+                                   set a more comprehensive identification string
+2007-02-02 : CUPS-PDF 2.4.4      - DOS-style path separators '\' are now recognized       
+2006-11-22 : CUPS-PDF 2.4.3      - replaced 'setenv' by 'putenv' to increase compatibility
+2006-09-30 : CUPS-PDF 2.4.2      - several code optimizations,
+                                   PostScript PPD now uncompressed and rev4 only
+2006-06-13 : CUPS-PDF 2.4.1      - added a PDF-to-mail postprocessing script to contrib/,
+                                   added a new revision of the PostscriptColor PPD file
+2006-05-28 : CUPS-PDF 2.4.0      - created the contrib/ directory with additional software 
+2006-05-17 : CUPS-PDF 2.3.1      - fixed possible read access after end of string,      
+                                   fixed recognition of international characters
+2006-05-14 : CUPS-PDF 2.3.0      - experimental option to decode hex strings in title (NK)
+2006-04-14 : CUPS-PDF 2.2.0      - new option to remove prefixes from usernames
+2006-04-06 : CUPS-PDF 2.1.1      - minor bugfix to read umasks properly
+2006-03-25 : CUPS-PDF 2.1.0	 - new option to select where to look for title,
+                                   some code changes and optimizations
+2006-02-26 : CUPS-PDF 2.0.5      - several code optimizations
+2006-01-29 : CUPS-PDF 2.0.4      - beginning of (E)PS-code now determined by "%!",
+                                   optimized system call to GS in cups-pdf.conf,
+                                   some minor code changes,
+                                   debug information shows version number,
+                                   updated PostScript PPD file supporting ledger paper
+2006-01-07 : CUPS-PDF 2.0.3      - improved checking for root privileges (incl. EUID)
+2006-01-04 : CUPS-PDF 2.0.2      - fixed possible testing of an uninitialized variable
+2006-01-03 : CUPS-PDF 2.0.1      - fixed hanging jobs when logging is disabled
+2005-12-23 : CUPS-PDF 2.0.0      - creation of non-existent parent directories,
+                                   improved configurability of output directories,
+                                   option CPHOMESUB is now obsolete,
+                                   PPD file now matches Adobe specifications
+2005-10-23 : CUPS-PDF 2.0beta2   - added support for post-processing script,
+                                   fixed a bug when parsing cups-pdf.conf
+2005-09-18 : CUPS-PDF 2.0beta1	 - added support for runtime configuration,
+                                   introduced cups-pdf.conf,
+                                   made AnonDirName an abolute path
+2005-09-08 : CUPS-PDF 1.7.4	 - added some options to cups-pdf.h for MacOSX
+2005-07-23 : CUPS-PDF 1.7.3      - fixed GhostScript failure with error 11,
+                                   fixed segfault when called without root privileges
+2005-07-07 : CUPS-PDF 1.7.2      - adjustment of file mode moved to non-privileged child
+2005-06-16 : CUPS-PDF 1.7.1      - PDFs are protected during creation by file mode 000
+2005-03-07 : CUPS-PDF 1.7.0a
+2005-03-01 : CUPS-PDF 1.7.0	 - call of GhostScript from a non-privileged child process,
+	  			   no more additional programs in the call of GhostScript,
+	  			   several code optimizations
+2005-02-09 : CUPS-PDF 1.6.6	 - updated PostScript PPD file supporting more DIN formats
+2005-01-04 : CUPS-PDF 1.6.5	 - cups-pdf is running with gid of group defined in CPGRP
+2004-10-11 : CUPS-PDF 1.6.4	 - improved configurability for different versions of 'su'
+2004-10-07 : CUPS-PDF 1.6.3	 - corrected erroneous call of GhostScript
+2004-10-05 : CUPS-PDF 1.6.2	 - added necessary quotes in the call of GhostScript
+2004-10-03 : CUPS-PDF 1.6.1	 - allow users w/o valid shell in /etc/passwd,
+	  			   several code optimizations
+2004-09-08 : CUPS-PDF 1.6.0	 - new option to check against user names in lower case,
+	  			   new option to label all created PDFs with a job-id
+2004-08-10 : CUPS-PDF 1.5.2	 - fixed insecure creation of spoolfile,
+     	  			   several smaller code optimizations
+2004-08-09 : CUPS-PDF 1.5.1	 - fixed possible access to element outside allocated area,
+	  			   fixed possible conflict with overlapping memory areas
+2004-08-03 : CUPS-PDF 1.5.0	 - call to GS without root privileges for enhanced security
+2004-08-01 : CUPS-PDF 1.4.3	 - added -dSAFER to the call to GS to improve security
+2004-02-25 : CUPS-PDF 1.4.2a
+2004-02-24 : CUPS-PDF 1.4.2	 - improved extraction of filenames,
+	  			   handling of embedded (e)ps code (RVT)
+2004-02-09 : CUPS-PDF 1.4.1	 - logfile is created with mode 644 if it does not exist
+2004-01-27 : CUPS-PDF 1.4.0	 - new option to set permissions for PDF output,
+	  			   alternative options for improved image conversion
+				   (moved CPGSCALL to cups-pdf.h)
+2004-01-06 : CUPS-PDF 1.3.2	 - exit status of ghostscript gets logged in debug mode
+2004-01-02 : CUPS-PDF 1.3.1a
+2003-11-29 : CUPS-PDF 1.3.1	 - improved handling of domain prefix
+2003-11-02 : CUPS-PDF 1.3	 - new option to cut file name extensions
+2003-10-25 : CUPS-PDF 1.2	 - untitled documents are labelled with job-id,
+     	  			   new option to add a domain prefix to user names,
+	  			   removed a minor bug during character replacement
+2003-08-02 : CUPS-PDF 1.1	 - files not viewable until creation is finished,
+     	  			   new qualifier "$HOME" for output directory,
+     	  			   "$HOME"-related new define in the header file
+2003-07-17 : CUPS-PDF 1.0.1	 - improved user name handling for multi-word names,
+	  			   code now distributed under the GPL
+2003-06-29 : CUPS-PDF 1.0	 - enhanced debug output,
+     	  			   replacement of special characters in title,
+     	  			   new option in the header file
+2003-05-26 : CUPS-PDF 1.0pre3	 - several minor bugfixes and improvements
+2003-05-21 : CUPS-PDF 1.0pre2	 - optimized memory management
+2003-05-16 : CUPS-PDF 1.0pre1	 - introduced cups-pdf.h,
+     	  			   code now entirely written in C,
+     	  			   cups-pdfgen is obsolete
+2003-02-14 : CUPS-PDF 0.2	 - script re-located to /usr/lib/cups/filter/cups-pdfgen
+2003-02-12 : CUPS-PDF 0.1	 - first beta release					

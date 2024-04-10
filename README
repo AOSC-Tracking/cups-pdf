@@ -1,0 +1,147 @@
+Welcome to CUPS-PDF v3
+
+ CONTENTS:
+
+  1. building CUPS-PDF
+  2. setting up the PDF queue with CUPS
+  3. advanced configuration and multiple instances
+  4. note for MacOSX
+  5. contact
+
+
+1. building CUPS-PDF
+--------------------
+
+   Edit src/cups-pdf.h if you do not like /etc/cups as location for your 
+   configuration files.
+   To compile CUPS-PDF, invoke gcc in the src/ directory:
+
+   gcc -O9 -s cups-pdf.c -o cups-pdf -lcups
+
+   Note: you will have to have the deveopment package for CUPS installed
+         in order to build CUPS-PDF
+
+   To install the binary, simply copy cups-pdf to the backend directory
+   of CUPS (usually /usr/lib/cups/backend or /usr/lib64/...).
+
+   Now copy extra/cups-pdf.conf to /etc/cups (or whatever location you
+   selected in cups-pdf.h above). Here you can set all properties of 
+   CUPS-PDF at runtime without the need for restarting any services.
+   (The defaults should work fine on most systems.)
+
+   If you want to use the color PostScript driver that comes with
+   CUPS-PDF go to the extra/ subdirectory and copy CUPS-PDF_opt.ppd to 
+   your CUPS model directory (usually /usr/share/cups/model [ /Generic ] ).
+   If you do not want to set any options via PPD (see section 3), use
+   CUPS-PDF_noopt.ppd instead.
+
+
+2. setting up the PDF queue with CUPS
+-------------------------------------
+
+   Important notes:
+   ================
+   
+   * CUPS-PDF requires root privileges since it has to modify file ownerships. 
+     In order to ensure CUPS-PDF is running with the required root privileges
+     you have to make 'root' the owner of the cups-pdf backend and set the 
+     file permissions of the backend to 0700 (root only).
+     NOTE: in older versions of CUPS (<1.2.0) you have to set the "RunAsUser" 
+           option in cupsd.conf to "No" in order to grant full privileges.
+   * CUPS-PDF needs a fully featured UNIX-filesystem to work. Make sure if any
+     of CUPS-PDF's working directories (e.g. output) are located on an NFS 
+     mounted volume they are mounted without root_squash! Other filesystems 
+     (e.g. NetWare or Windows shares as well as NFSv4 with kerberos) are _not_ 
+     supported!
+   * CUPS-PDF is known to fail if the gs (GhostScript) binary on a system is 
+     compressed by upx (Ultimate Packer for eXecutables).
+   * If you are using SELinux, AppArmour or similar tools,  make sure these do
+     not interfere with CUPS-PDF.
+     (You can disable SELinux for CUPS by "setsebool -P cupsd_disable_trans 1"
+      or have a look at the SELinux-HOWTO on www.cups-pdf.de)
+
+   Now you will be able to choose "CUPS-PDF (Virtual PDF Printer)" when 
+   setting up a new printer in CUPS (a CUPS-restart may be necessary).
+   To set up a queue for other UNIX clients you should select Postscript as
+   vendor and the Color Printer as model for your new printer; queues that get
+   their input from samba or netatalk (i.e. Windows, OS/2 or MacOS) can be set
+   up as raw queues. On the Windows, OS/2 or MacOS system choose a color
+   postscript driver for that network printer (the drivers for Minolta Page
+   Works or HP DesignJet printers do a good job).
+   Hint: If you want to create grayscale PDFs you just have to choose a
+   grayscale printer driver, i.e. the postscript.ppd that comes with CUPS on
+   the Linux side or a b/w laser printer (e.g. a HP LaserJet) on the Windows
+   side. On the Linux side be aware that the postscript.ppd will not
+   re-process data that is already supplied in Postscript format, i.e. a color
+   Postscript will keep it's colors.
+
+   Once you print to the new device the output directory selected in
+   cups-pdf.conf (defaults to /var/spool/cups-pdf) will be created and all
+   converted PDF files will be placed in subdirectories named after the owner
+   of the print job. In case the owner cannot be identified (i.e. does not
+   exist on the server) the output is placed in the directory for anonymous
+   operation (if not disabled in cups-pdf.conf - defaults to 
+   /var/spool/cups-pdf/ANONYMOUS/).
+   Furthermore if logging is enabled the logfile will be placed by default in
+   /var/log/cups.
+
+   The files "CUPS-PDF_opt.ppd" and "CUPS-PDF_noopt.ppd" are modified versions
+   of the "Postscript.ppd.gz" that comes with CUPS 1.1.15 that is able to 
+   handle color output.
+
+   You should have a look at the contributed software on www.cups-pdf.de which
+   contains several additions to CUPS-PDF which enhance functionality or 
+   supports the setup of CUPS-PDF on different platforms.
+
+
+3. advanced configuration and multiple instances
+------------------------------------------------
+
+   CUPS-PDF now has a PPD file (CUPS-PDF_opt.ppd) that allows setting the following 
+   options in the CUPS webinterface (administration/set default options):
+   - resolution
+   - page size
+   - PDF version
+   - truncate output file names
+   - labelling (with jobid) of output files
+   - title source preference
+   - log level
+   Please note that setting these options in the cups-pdf.conf will have no
+   effect if you use the included PPD file as the settings from the PPD-file
+   will override the settings in the config file.
+
+   Additionally users can set some of the options using lpoptions (see man lpoptions):
+   - PDFVer
+   - PostProcessing
+   - Cut
+   - Truncate
+   - TitelPref
+   - UserMask
+   See the configfile for an overview of the options and their meanings.
+   These options are deemed not to create security risks.
+   If you insist on allowing users to set other options as well (creating security risks,
+   you have been warned!), set AllowUnsafeOptions in the config file
+   (/etc/cups/cups-pdf.conf) to 1.
+
+   To create multiple instances of the backend with different configurations, simply 
+   copy several config files in your config directory, naming them 
+   cups-pdf-<NAME>.conf, where <NAME> is a unique identifier for this instance.
+   You can then select the new instances as URI when creating a new printer in CUPS.
+
+
+4. note for MacOSX
+------------------
+
+   Since MacOSX' AFPL GhostScript does not support the way of PDF generation 
+   used by CUPS-PDF you will have to use pstopdf instead. For this the
+   settings of GhostScript, GSCall and PDFVer in cups-pdf.conf have to be
+   changed accordingly. The values are documented in cups-pdf.conf .
+
+
+5. contact
+----------
+   
+   Volker C. Behr
+   volker@cups-pdf.de
+   http://www.cups-pdf.de
+
