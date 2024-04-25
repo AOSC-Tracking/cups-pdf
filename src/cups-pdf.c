@@ -651,6 +651,13 @@ static int preparetitle(char *title) {
       title[strlen(title)-1]='\0';
       memmove(title, title+1, strlen(title));
     }
+    cut=strchr(title, '\r');
+    if (!cut)
+      cut=strchr(title, '\n');
+    if (cut) {
+      *cut = 0;
+      log_event(CPDEBUG, "removing newlines from title", title);
+    }
   }
   cut=strrchr(title, '/');
   if (cut != NULL) {
@@ -740,11 +747,13 @@ static int preparespoolfile(FILE *fpsrc, char *spoolfile, char *title, char *cmd
   (void) fputs(buffer, fpdest);
   while (fgets2(buffer, BUFSIZE, fpsrc) != NULL) {
     (void) fputs(buffer, fpdest);
-    if (!is_title && !rec_depth)
+    if (!is_title && !rec_depth) {
+      memset(title, 0, BUFSIZE);
       if (sscanf(buffer, "%%%%Title: %"TBUFSIZE"c", title)==1) {
         log_event(CPDEBUG, "found title in ps code: %s", title);
         is_title=1;
       }
+    }
     if (!strncmp(buffer, "%!", 2)) {
       log_event(CPDEBUG, "found embedded (e)ps code: %s", buffer);
       rec_depth++;
