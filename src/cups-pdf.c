@@ -830,6 +830,7 @@ int main(int argc, char *argv[]) {
   gid_t *groups;
   int ngroups;
   pid_t pid;
+  struct stat statout;
 
   if (setuid(0)) {
     (void) fputs("CUPS-PDF cannot be called without root privileges!\n", stderr);
@@ -1059,7 +1060,11 @@ int main(int argc, char *argv[]) {
      
     (void) umask(0077);
     size=system(gscall);
-    log_event(CPDEBUG, "ghostscript has finished: %d", size);
+    if (size)
+      log_event(CPERROR, "ghostscript reported an error", size);
+    else
+      log_event(CPDEBUG, "ghostscript succeeded", NULL);
+
     if (chmod(outfile, mode))
       log_event(CPERROR, "failed to set file mode for PDF file: %s (non fatal)", outfile);
     else
@@ -1092,6 +1097,11 @@ int main(int argc, char *argv[]) {
   else 
     log_event(CPDEBUG, "spoolfile unlinked: %s", spoolfile);
 
+  if (stat(outfile, &statout) || statout.st_size==0)
+    log_event(CPSTATUS, "PDF creation failed", NULL);
+  else
+    log_event(CPSTATUS, "PDF creation successfully finished", outfile);
+
   free(groups);
   free(dirname);
   free(spoolfile);
@@ -1099,8 +1109,6 @@ int main(int argc, char *argv[]) {
   free(gscall);
   
   log_event(CPDEBUG, "all memory has been freed");
-
-  log_event(CPSTATUS, "PDF creation successfully finished for %s", passwd->pw_name);
 
   if (logfp!=NULL)
     (void) fclose(logfp);
